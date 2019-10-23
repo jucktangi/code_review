@@ -1,2 +1,5 @@
 # code_review
-code review practice
+코드리뷰 실습 리파지토리
+
+## 목표
+코드리뷰 실습
