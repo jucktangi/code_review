@@ -1,71 +1,88 @@
+/*
+ * Copyright (C) 2019 jucktangi.
+ */
+
 import java.io.*;
 import java.lang.*;
-class Sort
+
+public class Sort
 {
-	public static void main(String args[])throws IOException
+	public static void main(String[] args)throws IOException
 	{
-		int ch;
+		int ch = 0;
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		do
-	{
-		System.out.println("\n\n\n1.Bubble Sort\n2.Selection Sort\n3.Insertion Sort.\n4.Quick Sort.\n5.Merge Sort.\n6.Exit.");
-		 ch=Integer.parseInt(br.readLine());
-		if(ch==6)
-			return;
-		System.out.println("Enter n");
-		int n=Integer.parseInt(br.readLine());
-		int a[]=new int[n];
-		for(int i=0;i<n;i++)
 		{
-			a[i]=Integer.parseInt(br.readLine());
+			System.out.println(
+					"\n\n\n1.Bubble Sort\n"
+					+ "2.Selection Sort\n"
+					+ "3.Insertion Sort.\n"
+					+ "4.Quick Sort.\n"
+					+ "5.Merge Sort.\n"
+					+ "6.Exit.");
+			ch=Integer.parseInt(br.readLine());
+			if(ch==6)
+				return;
+			System.out.println("Enter n");
+			int n=Integer.parseInt(br.readLine());
+			int item[]=new int[n];
+			for(int i=0;i<n;i++)
+			{
+				item[i]=Integer.parseInt(br.readLine());
+			}
+			switch(ch)
+			{
+				case 1:
+					BinarySort(item,n);
+					print(item,n);
+					break;
+				case 2:
+					SelectionSort(item,n);
+					print(item,n);
+					break;
+				case 3:
+					InsertionSort(item,n);
+					print(item,n);
+					break;
+				case 4:
+					int start=0;
+					int end=n-1;
+					QuickSort(item,start,end);
+					print(item,n);
+					break;
+				case 5:
+					MergeSort(item,n);
+					print(item,n);	
+					break;
+				default:
+					System.out.println("You selected wrong number. Please try again.\n");
+					break;
+			}
+			
 		}
-		switch(ch)
-		{
-			case 1:
-				BinarySort(a,n);
-				break;
-			case 2:
-				SelectionSort(a,n);
-				break;
-			case 3:
-				InsertionSort(a,n);
-				break;
-			case 4:
-				int start=0;
-				int end=n-1;
-				QuickSort(a,start,end);
-				print(a,n);
-				break;
-			case 5:
-				MergeSort(a,n);
-				print(a,n);	
-				break;
-		}
-		
+		while(ch!=6);
 	}
-	while(ch!=6);
-	}
-	public static void BinarySort(int a[],int n)
+	public static void BinarySort(int[] item,int n)
 	{
-		int temp;
+		int temp = 0;
 		for(int i=0;i<n-1;i++)
 		{
 			for(int j=0;j<n-1;j++)
 			{
-				if(a[j]>a[(j+1)])
+				if(item[j]>item[j+1])
 				{
-					temp=a[j];
-					a[j]=a[(j+1)];
-					a[(j+1)]=temp;
+					temp=item[j];
+					item[j]=item[j+1];
+					item[j+1]=temp;
 				}
 			//System.out.print(a[j]);
 			}
 			//System.out.println();
 			
 		}
-		print(a,n);
+		//print(a,n);
 	}
-	public static void SelectionSort(int a[], int n)
+	public static void SelectionSort(int[] item, int n)
 	{
 		for (int i=0;i<n-1;i++)
 		{
@@ -73,31 +90,31 @@ class Sort
 			int temp;
 			for(int j=i+1;j<n;j++)
 			{
-				if(a[j]<a[imin])
+				if(item[j]<item[imin])
 					imin=j;
 			}
-					temp=a[i];
-					a[i]=a[imin];
-					a[imin]=temp;
+			temp=item[i];
+			item[i]=item[imin];
+			item[imin]=temp;
 		}
-		print(a,n);
+		//print(a,n);
 	}
-	public static void InsertionSort(int a[],int n)
+	public static void InsertionSort(int[] item,int n)
 	{
 		for(int i=1;i<n;i++)
 		{
-			int val=a[i];
+			int val=item[i];
 			int hole=i;
-			while(hole>0&&a[hole-1]>val)
+			while(hole>0&&item[hole-1]>val)
 			{
-				a[hole]=a[hole-1];
+				item[hole]=item[hole-1];
 				hole=hole-1;
 			}
-			a[hole]=val;
+			item[hole]=val;
 		}
-		print(a,n);
+		//print(a,n);
 	}
-	public static void MergeSort(int a[],int n)
+	public static void MergeSort(int[] item,int n)
 	{
 		
 		if(n<=1)
@@ -106,44 +123,44 @@ class Sort
 		int left[]=new int[mid];
 		int right[]=new int[n-mid];
 		for(int i=0;i<mid;i++)
-			left[i]=a[i];
+			left[i]=item[i];
 		for(int i=mid;i<n;i++)
-			right[i-mid]=a[i];
+			right[i-mid]=item[i];
 		MergeSort(left,mid);
 		MergeSort(right,n-mid);
-		Merge(left,right,a);
+		Merge(left,right,item);
 		
 	}
-	public static void Merge(int left[],int right[],int a[])
+	public static void Merge(int[] left,int[] right,int[] item)
 	{
-		int nL=left.length;
-		int nR=right.length;
+		int sizeLeft=left.length;
+		int sizeRight=right.length;
 		int i,j,k;
 		i=j=k=0;
-		while(i<nL&&j<nR)
+		while(i<sizeLeft&&j<sizeRight)
 		{
 			if(left[i]<=right[j])
 			{
-				a[k]=left[i];
+				item[k]=left[i];
 				i++;
 				k++;
 			}
 			else
 			{
-				a[k]=right[j];
+				item[k]=right[j];
 				j++;
 				k++;
 			}
 		}
-		while(i<nL)
+		while(i<sizeLeft)
 		{
-			a[k]=left[i];
+			item[k]=left[i];
 			i++;
 			k++;
 		}
-		while(j<nR)
+		while(j<sizeRight)
 		{
-			a[k]=right[j];
+			item[k]=right[j];
 			j++;
 			k++;
 		}
@@ -152,34 +169,34 @@ class Sort
 	{
 		if(start<end)
 		{
-		int pIndex=QuickPartition(a,start,end);
-		QuickSort(a,start,pIndex-1);
-		QuickSort(a,pIndex+1,end);
+			int pIndex=QuickPartition(a,start,end);
+			QuickSort(a,start,pIndex-1);
+			QuickSort(a,pIndex+1,end);
 		}
 		else
 			return;
 		
 	}
-	public static int QuickPartition(int a[],int start,int end)
+	public static int QuickPartition(int[] item,int start,int end)
 	{
-		int temp;
-		int pivot=a[end];
+		int temp = 0;
+		int pivot=item[end];
 		int pIndex=start;
 		for(int i=start;i<end;i++)
 		{
-			if(a[i]<=pivot)
+			if(item[i]<=pivot)
 			{
 				//swap a[i],apindex
-					temp=a[i];
-					a[i]=a[pIndex];
-					a[pIndex]=temp;
-					pIndex++;
+				temp=item[i];
+				item[i]=item[pIndex];
+				item[pIndex]=temp;
+				pIndex++;
 			}
 		}
-					temp=a[pIndex];
-					a[pIndex]=a[end];
-					a[end]=temp;
-					return pIndex;
+		temp=item[pIndex];
+		item[pIndex]=item[end];
+		item[end]=temp;
+		return pIndex;
 	}
 	public static void print(int a[],int n)
 	{
